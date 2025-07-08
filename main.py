@@ -1,11 +1,21 @@
-"""
-We want to save the paths to a file
-"""
 import os.path
 import random
+import sys
 from typing import Callable, Dict, List, Any, Generator
 
 from rich.console import Console
+
+
+def get_data_path() -> str:
+    """
+    Returns the path to the data directory, handling both development and bundled environments.
+    """
+    # Production environment
+    if getattr(sys, 'frozen', False):
+        return os.path.join(sys._MEIPASS, 'data')
+    # Development environment
+    else:
+        return os.path.join(os.path.dirname(__file__), 'data')
 
 
 # region Saving & Loading        
@@ -13,7 +23,8 @@ def save_paths() -> None:
     """
     Saves the paths to a file named "paths.txt". If the file already exists, it will be overwritten.
     """
-    with open("paths.txt", "w") as file:
+    data_dir = get_data_path()
+    with open(os.path.join(data_dir, "paths.txt"), "w") as file:
         for path in paths:
             file.write(path + "\n")
     print("Paths saved successfully.")
@@ -23,9 +34,10 @@ def load_paths() -> list[str]:
     """
     Loads the paths from a file, or uses a default file if it does not exist.
     """
-    path = "paths.txt"
-    if not os.path.exists("paths.txt"):
-        path = "paths.default.txt"
+    data_dir = get_data_path()
+    path = os.path.join(data_dir, "paths.txt")
+    if not os.path.exists(path):
+        path = os.path.join(data_dir, "paths.default.txt")
     with open(path, "r") as file:
         loaded_paths = file.readlines()
         return [path.strip().replace("[user]", os.environ["username"]) for path in loaded_paths]
@@ -65,7 +77,7 @@ def help_command(*args: str) -> None:
 def exit_command(*args: str) -> None:
     print("\nExiting...")
     save_paths()
-    exit(0)
+    sys.exit(0)
 
 
 def clear_command(*args: str) -> None:
@@ -126,7 +138,7 @@ def main():
 
     console.clear()
     console.print("Run \"help\" for list of commands")
-    
+
     while True:
         try:
             line = console.input("> ")
