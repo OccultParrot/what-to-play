@@ -4,7 +4,7 @@ This is a small project I wrote after being inspired by my good friend Joey.
 
 ## Installation / Setup
 
-There are two options: [Install the exe](https://github.com/OccultParrot/what-to-play/releases), or clone the script and run it with Python.
+There are two options: [Install the exe](https://github.com/OccultParrot/what-to-play/releases/latest), or clone the script and run it with Python.
 
 ### Cloning the Script
 
