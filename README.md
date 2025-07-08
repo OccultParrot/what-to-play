@@ -35,6 +35,13 @@ There are two options: [Install the exe](https://github.com/OccultParrot/what-to
     python what_to_play.py
     ```
 
+### Building the Executable
+
+If you want to build the script, run the following build command:
+```bash
+pyinstaller main.py -F -n "What to Play" --add-data "data;data"
+```
+
 ## Usage
 There are multiple commands built into the script:
 - `help`: Displays all commands and their descriptions.
